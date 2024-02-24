@@ -1,0 +1,33 @@
+import tkinter as tk
+from tkinter import messagebox
+import subprocess
+
+def execute_command():
+    command = command_entry.get()
+    try:
+        result = subprocess.check_output(command, shell=True, text=True)
+        result_text.delete(1.0, tk.END)
+        result_text.insert(tk.END, result)
+    except subprocess.CalledProcessError as e:
+        messagebox.showerror("Error", f"Command failed with error: {e}")
+
+# Create the main window
+window = tk.Tk()
+window.title("Command Line GUI")
+
+# Command Entry
+command_label = tk.Label(window, text="Enter command:")
+command_label.pack(pady=5)
+command_entry = tk.Entry(window, width=50)
+command_entry.pack(pady=5)
+
+# Execute Button
+execute_button = tk.Button(window, text="Execute Command", command=execute_command)
+execute_button.pack(pady=10)
+
+# Result Text
+result_text = tk.Text(window, height=10, width=70)
+result_text.pack(pady=10)
+
+# Run the application
+window.mainloop()
